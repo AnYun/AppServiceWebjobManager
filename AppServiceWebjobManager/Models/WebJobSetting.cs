@@ -1,4 +1,6 @@
-﻿namespace AppServiceWebjobManager.Models
+﻿using System.Text;
+
+namespace AppServiceWebjobManager.Models
 {
     /// <summary>
     /// WebJobSetting
@@ -22,5 +24,9 @@
         /// Password
         /// </summary>
         public string Password { get; set; }
+        /// <summary>
+        /// Basic Authorization
+        /// </summary>
+        public string BasicAuthorization => Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(Account + ":" + Password));
     }
 }

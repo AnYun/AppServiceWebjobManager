@@ -1,7 +1,11 @@
+using AppServiceWebjobManager.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<IKuduService, KuduService>();
 
 var app = builder.Build();
 
