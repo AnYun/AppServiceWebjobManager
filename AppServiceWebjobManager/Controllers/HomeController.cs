@@ -7,10 +7,14 @@ namespace AppServiceWebjobManager.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly List<WebJobSetting> _webJobSettings;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
+            _webJobSettings = _configuration.GetSection("WebJobSettings").Get<List<WebJobSetting>>();
         }
 
         public IActionResult Index()
