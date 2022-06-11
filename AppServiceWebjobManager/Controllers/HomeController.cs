@@ -31,21 +31,45 @@ namespace AppServiceWebjobManager.Controllers
         /// <summary>
         /// List WebJobs
         /// </summary>
-        /// <param name="WebJobName"></param>
+        /// <param name="WebJobSettingName"></param>
         /// <returns></returns>
-        public IActionResult ListWebJobs(string WebJobName)
+        [Route("WebJobs/{WebJobSettingName?}", Name = "WebJobs")]
+        public IActionResult WebJobs(string WebJobSettingName)
         {
-            var setting = _webJobSettings.Single(x => x.Name == WebJobName);
-            _kuduService.Initialize(setting);
-            var model = _kuduService.GetWebJobs().Select(x => x.ToViewModel());
+            SetWebJobSetting(WebJobSettingName);
 
+            var model = _kuduService.GetWebJobs().Select(x => x.ToViewModel());
             return PartialView(model);
         }
+        /// <summary>
+        /// Run History
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <param name="WebJobName"></param>
+        /// <returns></returns>
+        [Route("{WebJobSettingName}/{Type}WebJob/{WebJobName}/History", Name = "History")]
+        public IActionResult History(string WebJobSettingName, string Type, string WebJobName)
+        {
+            SetWebJobSetting(WebJobSettingName);
 
+            var model = _kuduService.GetWebJobHistory(Type, WebJobName).ToViewModel();
+            return View(model);
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        /// <summary>
+        /// Get Single WebJobSetting
+        /// </summary>
+        /// <param name="WebJobSettingName"></param>
+        /// <returns></returns>
+        private void SetWebJobSetting(string WebJobSettingName)
+        {
+            var setting = _webJobSettings.Single(x => x.Name == WebJobSettingName);
+            _kuduService.Initialize(setting);
         }
     }
 }

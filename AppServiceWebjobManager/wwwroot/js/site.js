@@ -6,13 +6,11 @@ $(function () {
 
     var webjobListUrl = $("#WebjobListUrl").val();
 
-    $("#WebJobName").change(function () {
-        var webJobName = $(this).val();
+    $("#WebJobSettingName").change(function () {
+        var webJobSettingName = $(this).val();
 
-        console.log(webJobName);
-
-        if (webJobName !== "") {
-            $.get(webjobListUrl, { WebJobName: webJobName }, function (result) {
+        if (webJobSettingName !== "") {
+            $.get(webjobListUrl, { WebJobSettingName: webJobSettingName }, function (result) {
                 $("#WebJobList").html(result);
             });
         }

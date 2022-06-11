@@ -3,10 +3,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<select name="WebJobName" id="WebJobName" asp-items="Model" class="form-select">
+<select name="WebJobSettingName" id="WebJobSettingName" asp-items="Model" class="form-select">
     <option>Please Choose WebJob Setting</option>
 </select>
 
 <div id="WebJobList"></div>
 
-<input type="hidden" id="WebjobListUrl" value="@Url.Action("ListWebJobs")" />
+<input type="hidden" id="WebjobListUrl" value="@Url.RouteUrl("WebJobs")" />

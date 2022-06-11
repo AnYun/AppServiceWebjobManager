@@ -35,6 +35,22 @@ namespace AppServiceWebjobManager.Services
 
             return result;
         }
+        /// <summary>
+        /// Get WebJob History
+        /// </summary>
+        /// <param name="type">WebJob Type</param>
+        /// <param name="name">WebJob Name</param>
+        /// <returns></returns>
+        public WebJobHistory GetWebJobHistory(string type, string name)
+        {
+            var request = new RestRequest($"api/{type}webjobs/{name}/history", Method.Get);
+            SetBasicAuthorization(request);
+
+            var response = this.restClient.ExecuteAsync(request).Result;
+            var result = JsonSerializer.Deserialize<WebJobHistory>(response.Content);
+
+            return result;
+        }
 
         /// <summary>
         /// Set  Basic Authorization
@@ -44,5 +60,7 @@ namespace AppServiceWebjobManager.Services
         {
             request.AddHeader("Authorization", "Basic " + this.webJobSetting.BasicAuthorization);
         }
+
+        
     }
 }

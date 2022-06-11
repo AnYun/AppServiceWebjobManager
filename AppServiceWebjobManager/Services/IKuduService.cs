@@ -16,5 +16,12 @@ namespace AppServiceWebjobManager.Services
         /// Get WebJob List
         /// </summary>
         List<WebJobData> GetWebJobs();
+        /// <summary>
+        /// Get WebJob History
+        /// </summary>
+        /// <param name="type">WebJob Type</param>
+        /// <param name="name">WebJob Name</param>
+        /// <returns></returns>
+        WebJobHistory GetWebJobHistory(string type, string name);
     }
 }

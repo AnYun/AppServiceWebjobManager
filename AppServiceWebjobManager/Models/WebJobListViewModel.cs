@@ -25,7 +25,7 @@ namespace AppServiceWebjobManager.Models
         /// <summary>
         /// WebJob Schedule
         /// </summary>
-        [Display(Name = "WebJob Schedule")]
+        [Display(Name = "Schedule")]
         public string Schedule { get; set; }
     }
 }
