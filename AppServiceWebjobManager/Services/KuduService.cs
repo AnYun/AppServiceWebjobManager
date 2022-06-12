@@ -119,6 +119,22 @@ namespace AppServiceWebjobManager.Services
 
             return response.Content;
         }
+        /// <summary>
+        /// Run WebJob
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public string ExcuteWebJob(string type, string name)
+        {
+            var runtype = (type == "continuous") ? "start" : "run";
+            var request = new RestRequest($"api/{type}webjobs/{name}/{runtype}", Method.Post);
+            SetBasicAuthorization(request);
+
+            var response = this.restClient.ExecuteAsync(request).Result;
+
+            return response.Content;
+        }
 
         /// <summary>
         /// Set  Basic Authorization
@@ -128,7 +144,5 @@ namespace AppServiceWebjobManager.Services
         {
             request.AddHeader("Authorization", "Basic " + this.webJobSetting.BasicAuthorization);
         }
-
-        
     }
 }

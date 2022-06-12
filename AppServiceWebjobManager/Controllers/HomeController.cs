@@ -123,6 +123,25 @@ namespace AppServiceWebjobManager.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Excute WebJob
+        /// </summary>
+        /// <param name="WebJobSettingName"></param>
+        /// <param name="WebJobName"></param>
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        [Route("{WebJobSettingName}/{type}WebJob/{WebJobName}/Start", Name = "ExcuteContinuousWebJob")]
+        [Route("{WebJobSettingName}/{type}WebJob/{WebJobName}/Run", Name = "ExcuteTriggeredWebJob")]
+        public IActionResult ExcuteWebJob(string WebJobSettingName, string WebJobName, string Type)
+        {
+            SetWebJobSetting(WebJobSettingName);
+
+            var result = _kuduService.ExcuteWebJob(Type, WebJobName);
+            TempData["Message"] = result;
+
+            return RedirectToAction("WebJobs", new { WebJobSettingName = WebJobSettingName });
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

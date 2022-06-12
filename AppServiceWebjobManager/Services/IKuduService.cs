@@ -54,5 +54,12 @@ namespace AppServiceWebjobManager.Services
         /// <param name="url">log url</param>
         /// <returns></returns>
         string GetWebJobLog(string url);
+        /// <summary>
+        /// Run WebJob
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        string ExcuteWebJob(string type, string name);
     }
 }

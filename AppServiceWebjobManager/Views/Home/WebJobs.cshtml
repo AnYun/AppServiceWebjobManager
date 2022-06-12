@@ -1,6 +1,13 @@
 ﻿@model IEnumerable<WebJobListViewModel>
 
-<partial name="_WebJobSettingList" model = "ViewBag.WebJobSettingItems" />
+<partial name="_WebJobSettingList" model="ViewBag.WebJobSettingItems" />
+
+@if (string.IsNullOrEmpty(TempData["Message"]?.ToString()) == false)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Message"]
+    </div>
+}
 
 <div class="container">
     <div class="row">
@@ -42,6 +49,7 @@
                             </td>
 
                             <td>
+                                <a asp-route="Excute@(item.Type)WebJob" asp-route-webjobsettingname="@ViewContext.RouteData.Values["WebJobSettingName"]" asp-route-webjobname="@item.Name" asp-route-type="@item.Type" class="btn btn-success">Excute</a>
                                 <a asp-route="@(item.Type)WebJob" asp-route-webjobsettingname="@ViewContext.RouteData.Values["WebJobSettingName"]" asp-route-webjobname="@item.Name" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
