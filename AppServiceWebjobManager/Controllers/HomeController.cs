@@ -20,7 +20,7 @@ namespace AppServiceWebjobManager.Controllers
 
             _kuduService = kuduService;
 
-            
+
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -55,20 +55,35 @@ namespace AppServiceWebjobManager.Controllers
             var model = _kuduService.GetWebJobs().Select(x => x.ToViewModel());
             return View(model);
         }
+
+        #region WebJobDetail
         /// <summary>
         /// Run History
         /// </summary>
-        /// <param name="Type"></param>
+        /// <param name="WebJobSettingName"></param>
         /// <param name="WebJobName"></param>
         /// <returns></returns>
-        [Route("{WebJobSettingName}/TriggeredWebJob/{WebJobName}/History", Name = "TriggeredHistory")]
-        public IActionResult History(string WebJobSettingName, string WebJobName)
+        [Route("{WebJobSettingName}/ContinuousWebJob/{WebJobName}", Name = "ContinuousWebJob")]
+        public IActionResult ContinuousWebJob()
+        {
+            return View();
+        }
+        /// <summary>
+        /// Run History
+        /// </summary>
+        /// <param name="WebJobSettingName"></param>
+        /// <param name="WebJobName"></param>
+        /// <returns></returns>
+        [Route("{WebJobSettingName}/TriggeredWebJob/{WebJobName}", Name = "TriggeredWebJob")]
+        public IActionResult TriggeredWebJob(string WebJobSettingName, string WebJobName)
         {
             SetWebJobSetting(WebJobSettingName);
 
             var model = _kuduService.GetTriggeredWebJobHistoryList(WebJobName).ToViewModel();
             return View(model);
         }
+        #endregion WebJobDetail
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
