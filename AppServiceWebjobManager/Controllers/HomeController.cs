@@ -1,6 +1,7 @@
 ﻿using AppServiceWebjobManager.Models;
 using AppServiceWebjobManager.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 
@@ -18,28 +19,42 @@ namespace AppServiceWebjobManager.Controllers
             _webJobSettings = _configuration.GetSection("WebJobSettings").Get<List<WebJobSetting>>();
 
             _kuduService = kuduService;
+
+            
         }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var controller = context.Controller as Controller;
+            if (controller != null)
+            {
+                controller.ViewBag.WebJobSettingItems = GetWebJobSettingItems();
+            }
+        }
+
         /// <summary>
         /// Index
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
         {
-            var model = _webJobSettings.Select(x => new SelectListItem() { Text = x.Name, Value = x.Name });
-            return View(model);
+            //ViewBag.WebJobSettingItems = GetWebJobSettingItems();
+            return View();
         }
         /// <summary>
         /// List WebJobs
         /// </summary>
         /// <param name="WebJobSettingName"></param>
         /// <returns></returns>
-        [Route("WebJobs/{WebJobSettingName?}", Name = "WebJobs")]
+        [Route("{WebJobSettingName}", Name = "WebJobs")]
         public IActionResult WebJobs(string WebJobSettingName)
         {
             SetWebJobSetting(WebJobSettingName);
 
             var model = _kuduService.GetWebJobs().Select(x => x.ToViewModel());
-            return PartialView(model);
+            return View(model);
         }
         /// <summary>
         /// Run History
@@ -47,12 +62,12 @@ namespace AppServiceWebjobManager.Controllers
         /// <param name="Type"></param>
         /// <param name="WebJobName"></param>
         /// <returns></returns>
-        [Route("{WebJobSettingName}/{Type}WebJob/{WebJobName}/History", Name = "History")]
-        public IActionResult History(string WebJobSettingName, string Type, string WebJobName)
+        [Route("{WebJobSettingName}/TriggeredWebJob/{WebJobName}/History", Name = "TriggeredHistory")]
+        public IActionResult History(string WebJobSettingName, string WebJobName)
         {
             SetWebJobSetting(WebJobSettingName);
 
-            var model = _kuduService.GetWebJobHistory(Type, WebJobName).ToViewModel();
+            var model = _kuduService.GetWebJobHistory("Triggered", WebJobName).ToViewModel();
             return View(model);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -70,6 +85,18 @@ namespace AppServiceWebjobManager.Controllers
         {
             var setting = _webJobSettings.Single(x => x.Name == WebJobSettingName);
             _kuduService.Initialize(setting);
+        }
+        /// <summary>
+        /// Get WebJobSetting SelectListItem
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<SelectListItem> GetWebJobSettingItems()
+        {
+            return _webJobSettings.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = Url.Action("WebJobs", new { WebJobSettingName = x.Name })
+            });
         }
     }
 }

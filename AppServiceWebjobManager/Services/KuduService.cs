@@ -47,8 +47,11 @@ namespace AppServiceWebjobManager.Services
             SetBasicAuthorization(request);
 
             var response = this.restClient.ExecuteAsync(request).Result;
-            var result = JsonSerializer.Deserialize<WebJobHistory>(response.Content);
 
+            if (string.IsNullOrEmpty(response.Content))
+                return new WebJobHistory() { runs = new List<Run>() };
+
+            var result = JsonSerializer.Deserialize<WebJobHistory>(response.Content);
             return result;
         }
 
@@ -61,6 +64,6 @@ namespace AppServiceWebjobManager.Services
             request.AddHeader("Authorization", "Basic " + this.webJobSetting.BasicAuthorization);
         }
 
-        
+
     }
 }

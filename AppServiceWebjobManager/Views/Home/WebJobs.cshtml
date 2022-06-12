@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<WebJobListViewModel>
 
+<partial name="_WebJobSettingList" model = "ViewBag.WebJobSettingItems" />
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -40,7 +42,7 @@
                             </td>
 
                             <td>
-                                <a asp-route="History" asp-route-webjobsettingname="@Context.Request.Query["WebJobSettingName"].ToString()" asp-route-type="@item.Type" asp-route-webjobname="@item.Name"  class="btn btn-primary">History</a>
+                                <a asp-route="@(item.Type)History" asp-route-webjobsettingname="@ViewContext.RouteData.Values["WebJobSettingName"]" asp-route-webjobname="@item.Name" class="btn btn-primary">History</a>
                             </td>
                         </tr>
                     }

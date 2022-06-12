@@ -5,9 +5,9 @@
     /// </summary>
     public class WebJobHistory
     {
-        public Run[] runs { get; set; }
+        public List<Run> runs { get; set; }
 
-        public List<WebJobHistoryViewModel> ToViewModel() => runs.Select(x => x.ToViewModel()).ToList();
+        public List<WebJobHistoryViewModel> ToViewModel() => runs?.Select(x => x.ToViewModel()).ToList();
     }
 
     public class Run

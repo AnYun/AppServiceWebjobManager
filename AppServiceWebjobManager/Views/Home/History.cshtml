@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<WebJobHistoryViewModel>
 
+<partial name="_WebJobSettingList" model = "ViewBag.WebJobSettingItems" />
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -34,6 +36,7 @@
                             </td>
 
                             <td>
+
                             </td>
                         </tr>
                     }
@@ -42,3 +45,5 @@
         </div>
     </div>
 </div>
+
+<partial name="_HistoryDetailModal" />

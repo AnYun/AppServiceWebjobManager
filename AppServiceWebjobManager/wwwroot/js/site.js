@@ -3,16 +3,11 @@
 
 // Write your JavaScript code.
 $(function () {
-
-    var webjobListUrl = $("#WebjobListUrl").val();
-
     $("#WebJobSettingName").change(function () {
         var webJobSettingName = $(this).val();
 
         if (webJobSettingName !== "") {
-            $.get(webjobListUrl, { WebJobSettingName: webJobSettingName }, function (result) {
-                $("#WebJobList").html(result);
-            });
+            window.location.href = webJobSettingName;
         }
     });
 });
