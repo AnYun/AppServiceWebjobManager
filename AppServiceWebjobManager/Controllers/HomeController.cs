@@ -40,7 +40,6 @@ namespace AppServiceWebjobManager.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            //ViewBag.WebJobSettingItems = GetWebJobSettingItems();
             return View();
         }
         /// <summary>
@@ -67,7 +66,7 @@ namespace AppServiceWebjobManager.Controllers
         {
             SetWebJobSetting(WebJobSettingName);
 
-            var model = _kuduService.GetWebJobHistory("Triggered", WebJobName).ToViewModel();
+            var model = _kuduService.GetTriggeredWebJobHistoryList(WebJobName).ToViewModel();
             return View(model);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

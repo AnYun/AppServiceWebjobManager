@@ -38,12 +38,11 @@ namespace AppServiceWebjobManager.Services
         /// <summary>
         /// Get WebJob History
         /// </summary>
-        /// <param name="type">WebJob Type</param>
         /// <param name="name">WebJob Name</param>
         /// <returns></returns>
-        public WebJobHistory GetWebJobHistory(string type, string name)
+        public WebJobHistory GetTriggeredWebJobHistoryList(string name)
         {
-            var request = new RestRequest($"api/{type}webjobs/{name}/history", Method.Get);
+            var request = new RestRequest($"api/triggeredwebjobs/{name}/history", Method.Get);
             SetBasicAuthorization(request);
 
             var response = this.restClient.ExecuteAsync(request).Result;
