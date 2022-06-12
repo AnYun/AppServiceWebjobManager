@@ -58,18 +58,29 @@ namespace AppServiceWebjobManager.Controllers
 
         #region WebJobDetail
         /// <summary>
-        /// Run History
+        /// Continuous WebJob
         /// </summary>
         /// <param name="WebJobSettingName"></param>
         /// <param name="WebJobName"></param>
         /// <returns></returns>
         [Route("{WebJobSettingName}/ContinuousWebJob/{WebJobName}", Name = "ContinuousWebJob")]
-        public IActionResult ContinuousWebJob()
+        public IActionResult ContinuousWebJob(string WebJobSettingName, string WebJobName)
         {
-            return View();
+            SetWebJobSetting(WebJobSettingName);
+
+            var data = _kuduService.GetWebJobDetail("Continuous", WebJobName).ToViewModel();
+            var model = new WebJobDetailViewModel()
+            {
+                Name = data.Name,
+                Status = data.Status,
+                Type = data.Type,
+                Log = _kuduService.GetContinuousWebJobLog(data.Name)
+            };
+
+            return View(model);
         }
         /// <summary>
-        /// Run History
+        /// Triggered WebJob
         /// </summary>
         /// <param name="WebJobSettingName"></param>
         /// <param name="WebJobName"></param>
@@ -83,6 +94,34 @@ namespace AppServiceWebjobManager.Controllers
             return View(model);
         }
         #endregion WebJobDetail
+
+        /// <summary>
+        /// Run History
+        /// </summary>
+        /// <param name="WebJobSettingName"></param>
+        /// <param name="WebJobName"></param>
+        /// <param name="id">Id</param>
+        /// <returns></returns>
+        [Route("{WebJobSettingName}/TriggeredWebJob/{WebJobName}/History/{id}", Name = "TriggeredWebJobHistory")]
+        public IActionResult TriggeredWebJobHistory(string WebJobSettingName, string WebJobName, string id)
+        {
+            SetWebJobSetting(WebJobSettingName);
+
+            var data = _kuduService.GetTriggeredWebJobHistoryDetail(WebJobName, id).ToViewModel();
+            var model = new WebJobDetailViewModel()
+            {
+                Id = data.Id,
+                Name = WebJobName,
+                Type = "Triggered",
+                Duration = data.Duration,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+                Status = data.Status,
+                Log = _kuduService.GetTriggereWebJobLog(WebJobName, id)
+            };
+
+            return View(model);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

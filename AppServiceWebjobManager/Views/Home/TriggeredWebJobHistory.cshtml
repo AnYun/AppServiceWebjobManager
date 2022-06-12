@@ -2,10 +2,11 @@
 
 <partial name="_WebJobSettingList" model="ViewBag.WebJobSettingItems" />
 
-<h3>Continuous WebJob Details <small class="fs-6">@Model.Name</small></h3> 
+<h3>WebJob Run Details <small class="fs-6">@Model.Name</small></h3> 
 
 <div class="alert alert-dark" role="alert">
-    <b>@Model.Status</b>
+    <b>@Model.Status</b> @Model.StartTime (@Model.Duration running time) <br />
+    Run id: @Model.Id
 </div>
 
 <div class="mb-3">

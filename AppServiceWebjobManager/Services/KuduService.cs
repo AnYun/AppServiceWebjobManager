@@ -36,6 +36,21 @@ namespace AppServiceWebjobManager.Services
             return result;
         }
         /// <summary>
+        /// Get WebJob Detail
+        /// </summary>
+        /// <param name="name">WebJob Name</param>
+        /// <returns></returns>
+        public WebJobData GetWebJobDetail(string type, string name)
+        {
+            var request = new RestRequest($"api/{type}webjobs/{name}", Method.Get);
+            SetBasicAuthorization(request);
+
+            var response = this.restClient.ExecuteAsync(request).Result;
+            var result = JsonSerializer.Deserialize<WebJobData>(response.Content);
+
+            return result;
+        }
+        /// <summary>
         /// Get WebJob History
         /// </summary>
         /// <param name="name">WebJob Name</param>
@@ -53,6 +68,57 @@ namespace AppServiceWebjobManager.Services
             var result = JsonSerializer.Deserialize<WebJobHistory>(response.Content);
             return result;
         }
+        /// <summary>
+        /// Get Triggered WebJob History List
+        /// </summary>
+        /// <param name="name">WebJob Name</param>
+        /// <param name="id">Run id</param>
+        /// <returns></returns>
+        public Run GetTriggeredWebJobHistoryDetail(string name, string id)
+        {
+            var request = new RestRequest($"api/triggeredwebjobs/{name}/history/{id}", Method.Get);
+            SetBasicAuthorization(request);
+
+            var response = this.restClient.ExecuteAsync(request).Result;
+
+            var result = JsonSerializer.Deserialize<Run>(response.Content);
+            return result;
+        }
+        /// <summary>
+        /// Get Continuous WebJob Log
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string GetContinuousWebJobLog(string name)
+        {
+            var url = $"vfs/data/jobs/continuous/{name}/job_log.txt";
+            return GetWebJobLog(url);
+        }
+        /// <summary>
+        ///  Get Triggere WebJob Log
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string GetTriggereWebJobLog(string name, string id)
+        {
+            var url = $"vfs/data/jobs/triggered/{name}/{id}/output_log.txt";
+            return GetWebJobLog(url);
+        }
+        /// <summary>
+        /// Get WebJob Log
+        /// </summary>
+        /// <param name="url">log url</param>
+        /// <returns></returns>
+        public string GetWebJobLog(string url)
+        {
+            var request = new RestRequest(url, Method.Get);
+            SetBasicAuthorization(request);
+
+            var response = this.restClient.ExecuteAsync(request).Result;
+
+            return response.Content;
+        }
 
         /// <summary>
         /// Set  Basic Authorization
@@ -63,6 +129,6 @@ namespace AppServiceWebjobManager.Services
             request.AddHeader("Authorization", "Basic " + this.webJobSetting.BasicAuthorization);
         }
 
-
+        
     }
 }

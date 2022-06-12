@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<WebJobHistoryViewModel>
 
-<partial name="_WebJobSettingList" model = "ViewBag.WebJobSettingItems" />
+<partial name="_WebJobSettingList" model="ViewBag.WebJobSettingItems" />
 
 <div class="container">
     <div class="row">
@@ -37,6 +37,7 @@
                             </td>
 
                             <td>
+                                <a asp-route="TriggeredWebJobHistory" asp-route-webjobsettingname="@ViewContext.RouteData.Values["WebJobSettingName"]" asp-route-webjobname="@ViewContext.RouteData.Values["WebJobName"]" asp-route-id="@item.Id" class="btn btn-primary">Detail</a>
 
                             </td>
                         </tr>

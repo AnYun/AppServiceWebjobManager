@@ -20,7 +20,7 @@ namespace AppServiceWebjobManager.Models
         /// <summary>
         /// WebJob latest_run.status
         /// </summary>
-        [Display(Name = "Latest Run Status")]
+        [Display(Name = "Status")]
         public string Status { get; set; }
         /// <summary>
         /// WebJob Schedule

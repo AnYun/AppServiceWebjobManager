@@ -1,10 +1,7 @@
 ﻿namespace AppServiceWebjobManager.Models
 {
-    public class WebJobData
+    public class WebJobBaseData
     {
-        public Latest_Run latest_run { get; set; }
-        public string history_url { get; set; }
-        public string scheduler_logs_url { get; set; }
         public string name { get; set; }
         public string run_command { get; set; }
         public string url { get; set; }
@@ -13,6 +10,16 @@
         public object error { get; set; }
         public bool using_sdk { get; set; }
         public Settings settings { get; set; }
+    }
+    public class WebJobData : WebJobBaseData
+    {
+        public Latest_Run latest_run { get; set; }
+        public string history_url { get; set; }
+        public string scheduler_logs_url { get; set; }
+
+        public string status { get; set; }
+        public string detailed_status { get; set; }
+        public string log_url { get; set; }
 
         public WebJobListViewModel ToViewModel()
         {
@@ -20,7 +27,7 @@
             {
                 Name = name,
                 Schedule = settings.schedule,
-                Status = latest_run?.status,
+                Status =  (type=="continuous") ? status : latest_run?.status,
                 Type = type,
             };
         }
