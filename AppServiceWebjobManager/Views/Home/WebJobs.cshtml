@@ -50,6 +50,7 @@
 
                             <td>
                                 <a asp-route="Excute@(item.Type)WebJob" asp-route-webjobsettingname="@ViewContext.RouteData.Values["WebJobSettingName"]" asp-route-webjobname="@item.Name" asp-route-type="@item.Type" class="btn btn-success">Excute</a>
+                                <button type="button" class="btn btn-primary act-excute-webjob" data-bs-toggle="modal" data-url="@Url.RouteUrl($"Excute{item.Type}WebJob", new { WebJobSettingName = ViewContext.RouteData.Values["WebJobSettingName"], WebJobName = item.Name, Type = item.Type  })">Excute</button>
                                 <a asp-route="@(item.Type)WebJob" asp-route-webjobsettingname="@ViewContext.RouteData.Values["WebJobSettingName"]" asp-route-webjobname="@item.Name" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
@@ -59,3 +60,44 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="excuteWebJobModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Excute WebJob</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="excuteWebJobForm" action="" method="get">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Argments:</label>
+                        <input type="text" class="form-control" name="Argments">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary act-excute">Excute</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $("body").on("click", ".act-excute-webjob", function () {
+                var url = $(this).data("url");
+                $("#excuteWebJobForm").attr("action", url);
+                var myModal = new bootstrap.Modal($("#excuteWebJobModal"));
+                myModal.show();
+                return false;
+            });
+            $("body").on("click", ".act-excute", function () {
+                $("#excuteWebJobForm").submit();
+                return false;
+            });
+        });
+    </script>
+}

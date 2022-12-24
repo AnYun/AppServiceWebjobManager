@@ -124,11 +124,12 @@ namespace AppServiceWebjobManager.Services
         /// </summary>
         /// <param name="name"></param>
         /// <param name="type"></param>
+        /// <param name="arguments"></param>
         /// <returns></returns>
-        public string ExcuteWebJob(string type, string name)
+        public string ExcuteWebJob(string type, string name, string arguments)
         {
             var runtype = (type == "continuous") ? "start" : "run";
-            var request = new RestRequest($"api/{type}webjobs/{name}/{runtype}", Method.Post);
+            var request = new RestRequest($"api/{type}webjobs/{name}/{runtype}?arguments={arguments}", Method.Post);
             SetBasicAuthorization(request);
 
             var response = this.restClient.ExecuteAsync(request).Result;

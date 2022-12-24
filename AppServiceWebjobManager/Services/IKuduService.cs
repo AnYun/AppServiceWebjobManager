@@ -59,7 +59,8 @@ namespace AppServiceWebjobManager.Services
         /// </summary>
         /// <param name="name"></param>
         /// <param name="type"></param>
+        /// <param name="arguments"></param>
         /// <returns></returns>
-        string ExcuteWebJob(string type, string name);
+        string ExcuteWebJob(string type, string name, string arguments);
     }
 }
