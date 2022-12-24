@@ -50,7 +50,7 @@
 
                             <td>
                                 <a asp-route="Excute@(item.Type)WebJob" asp-route-webjobsettingname="@ViewContext.RouteData.Values["WebJobSettingName"]" asp-route-webjobname="@item.Name" asp-route-type="@item.Type" class="btn btn-success">Excute</a>
-                                <button type="button" class="btn btn-primary act-excute-webjob" data-bs-toggle="modal" data-url="@Url.RouteUrl($"Excute{item.Type}WebJob", new { WebJobSettingName = ViewContext.RouteData.Values["WebJobSettingName"], WebJobName = item.Name, Type = item.Type  })">Excute</button>
+                                <button type="button" class="btn btn-success act-excute-webjob" data-bs-toggle="modal" data-url="@Url.RouteUrl($"Excute{item.Type}WebJob", new { WebJobSettingName = ViewContext.RouteData.Values["WebJobSettingName"], WebJobName = item.Name, Type = item.Type  })">Excute with Argments</button>
                                 <a asp-route="@(item.Type)WebJob" asp-route-webjobsettingname="@ViewContext.RouteData.Values["WebJobSettingName"]" asp-route-webjobname="@item.Name" class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
